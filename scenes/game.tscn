@@ -1,0 +1,68 @@
+[gd_scene load_steps=10 format=3 uid="uid://dap78u4you03p"]
+
+[ext_resource type="Texture2D" uid="uid://c5d82mh0omsib" path="res://assets/GameBg.png" id="1_0bsi1"]
+[ext_resource type="Script" path="res://scenes/game.gd" id="1_ikgfn"]
+[ext_resource type="PackedScene" uid="uid://d1okoemtyp68h" path="res://scenes/paddle.tscn" id="2_3xkfe"]
+[ext_resource type="PackedScene" uid="uid://dn61kltpcurjo" path="res://scenes/gem.tscn" id="3_mx7s3"]
+[ext_resource type="AudioStream" uid="uid://6mi861j3tgwo" path="res://assets/bgm_action_5.mp3" id="5_djbsr"]
+[ext_resource type="AudioStream" uid="uid://d4hj8g8t5j4rv" path="res://assets/spell1_0.wav" id="5_xpcj4"]
+[ext_resource type="Texture2D" uid="uid://bkxm7286y62q1" path="res://assets/restart_dashed.png" id="7_7n6w5"]
+[ext_resource type="Texture2D" uid="uid://cat278dsphdmv" path="res://assets/restart.png" id="8_odbpo"]
+[ext_resource type="Texture2D" uid="uid://c5pqumm7ipbms" path="res://assets/restart_dashed2.png" id="8_opl7y"]
+
+[node name="Game" type="Node2D"]
+script = ExtResource("1_ikgfn")
+gem_scene = ExtResource("3_mx7s3")
+
+[node name="bg" type="Sprite2D" parent="."]
+position = Vector2(559, 317)
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("1_0bsi1")
+
+[node name="Paddle" parent="." instance=ExtResource("2_3xkfe")]
+position = Vector2(570, 581)
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
+[node name="Label" type="Label" parent="."]
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 146.0
+offset_bottom = 91.0
+theme_override_colors/font_color = Color(0.866667, 0.427451, 0.0627451, 1)
+theme_override_colors/font_shadow_color = Color(0.854902, 1, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 48
+text = "00000"
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_xpcj4")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_djbsr")
+volume_db = -16.396
+autoplay = true
+
+[node name="Label2" type="Label" parent="."]
+offset_left = 305.0
+offset_top = 217.0
+offset_right = 804.0
+offset_bottom = 343.0
+theme_override_colors/font_color = Color(0.862745, 0.192157, 0.392157, 1)
+theme_override_colors/font_shadow_color = Color(0.823529, 0.796078, 0, 1)
+theme_override_font_sizes/font_size = 92
+text = "Game Over"
+
+[node name="TextureButton" type="TextureButton" parent="."]
+offset_left = 454.0
+offset_top = 407.0
+offset_right = 494.0
+offset_bottom = 447.0
+texture_normal = ExtResource("8_odbpo")
+texture_pressed = ExtResource("8_opl7y")
+texture_hover = ExtResource("7_7n6w5")
+
+[connection signal="area_entered" from="Paddle" to="." method="_on_paddle_area_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
